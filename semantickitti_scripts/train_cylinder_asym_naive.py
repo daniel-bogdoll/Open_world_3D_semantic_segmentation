@@ -22,12 +22,34 @@ from config.config import load_config_data
 
 from utils.load_save_util import load_checkpoint
 
+from clearml import Task
+
 import warnings
 
 warnings.filterwarnings("ignore")
 
+def init_clearML(clearmlOn):
+
+    task = Task.init(project_name="bogdoll/anovox_benchmark", task_name="Lidar", output_uri="s3://tks-zx.fzi.de:9000/clearml")
+    task.set_base_docker(
+            "scrin/dev-spconv:latest", 
+            docker_setup_bash_script="pip install open3d && pip install --no-index torch-scatter -f https://data.pyg.org/whl/torch-1.7.1+cu110.html && pip install strictyaml",
+            docker_arguments="-e NVIDIA_DRIVER_CAPABILITIES=all"  # --ipc=host",   
+            )
+    
+    task.connect()
+    if clearmlOn:
+        # task.execute_remotely('rtx3090', clone=False, exit_process=True) 
+        task.execute_remotely('docker', clone=False, exit_process=True) 
+
+    return task
+
+
 
 def main(args):
+    clearmlOn = args.clearml
+    task = init_clearML(clearmlOn)
+
     pytorch_device = torch.device('cuda:0')
 
     config_path = args.config_path
@@ -166,6 +188,7 @@ if __name__ == '__main__':
     # Training settings
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('-y', '--config_path', default='/root/phd/Open_world_3D_semantic_segmentation/config/semantickitti.yaml')
+    parser.add_argument("--clearml", type=str, default=1)
     args = parser.parse_args()
 
     print(' '.join(sys.argv))
