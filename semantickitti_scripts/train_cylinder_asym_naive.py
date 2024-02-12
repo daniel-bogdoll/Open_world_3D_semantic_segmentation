@@ -2,11 +2,14 @@
 # author: Xinge
 # @file: train_cylinder_asym.py
 
-
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+#import os
 import time
 import argparse
-import sys
+#import sys
 import numpy as np
 import torch
 import torch.optim as optim

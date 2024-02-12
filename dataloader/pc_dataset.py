@@ -7,7 +7,7 @@ import numpy as np
 from torch.utils import data
 import yaml
 import pickle
-from nuscenes.eval.lidarseg.utils import get_samples_in_eval_set
+#from nuscenes.eval.lidarseg.utils import get_samples_in_eval_set
 
 REGISTERED_PC_DATASET_CLASSES = {}
 

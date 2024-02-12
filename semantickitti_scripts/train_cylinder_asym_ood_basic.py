@@ -86,7 +86,7 @@ def main(args):
     my_model.train()
     global_iter = 0
     check_iter = train_hypers['eval_every_n_steps']
-    writer = SummaryWriter('/harddisk/jcenaa/semantic_kitti/log')
+    writer = SummaryWriter('/root/phd/log')
     while epoch < train_hypers['max_num_epochs']:
         loss_list = []
         pbar = tqdm(total=len(train_dataset_loader))
