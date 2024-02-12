@@ -30,14 +30,16 @@ warnings.filterwarnings("ignore")
 
 def init_clearML(clearmlOn):
 
-    task = Task.init(project_name="bogdoll/anovox_benchmark", task_name="Lidar", output_uri="s3://tks-zx.fzi.de:9000/clearml")
+    task = Task.init(project_name="bogdoll/anovox_benchmark", task_name="Lidar", output_uri="s3://tks-zx.fzi.de:9000/eo233")
     task.set_base_docker(
             "scrin/dev-spconv:latest", 
             docker_setup_bash_script="pip install open3d && pip install --no-index torch-scatter -f https://data.pyg.org/whl/torch-1.7.1+cu110.html && pip install strictyaml",
             docker_arguments="-e NVIDIA_DRIVER_CAPABILITIES=all"  # --ipc=host",   
             )
     
-    task.connect()
+    parameters = {}
+
+    task.connect(parameters)
     if clearmlOn:
         # task.execute_remotely('rtx3090', clone=False, exit_process=True) 
         task.execute_remotely('docker', clone=False, exit_process=True) 
