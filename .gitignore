@@ -2,3 +2,4 @@ builder/__pycache__/
 dataloader/__pycache__/
 network/__pycache__/
 utils/__pycache__/
+config/__pycache__/
