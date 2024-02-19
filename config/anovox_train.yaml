@@ -1,0 +1,78 @@
+# Config format schema number
+format_version: 4
+
+###################
+## Model options
+model_params:
+  model_architecture: "cylinder_asym"
+
+  output_shape:
+    - 480
+    - 360
+    - 32
+
+  fea_dim: 9
+  # fea_dim: 8
+  out_fea_dim: 256
+  num_class: 20
+  num_input_features: 16
+  use_norm: True
+  init_size: 32
+
+
+###################
+## Dataset options
+dataset_params:
+  dataset_type: "cylinder_dataset"
+  pc_dataset_type: "AnoVox_train"
+  ignore_label: 0
+  return_test: False
+  # return_test: True
+  fixed_volume_space: True
+  label_mapping: "/home/tes_unreal/Desktop/BA/Open_world_3D_semantic_segmentation/config/label_mapping/anovox-label.yaml"
+  max_volume_space:
+    - 50
+    - 3.1415926
+    - 2
+  min_volume_space:
+    - 0
+    - -3.1415926
+    - -4
+
+
+###################
+## Data_loader options
+train_data_loader:
+  # data_path: "/home/tes_unreal/Desktop/Dataset_BA/AnomalyDatasets/AnoVox"
+  data_path: "/home/tes_unreal/Desktop/Dataset_BA/Final_Output_22_09-08_11_2023"
+
+  imageset: "train"
+  return_ref: True
+  batch_size: 2
+  shuffle: True
+  num_workers: 3
+
+val_data_loader:
+  # data_path: "/home/tes_unreal/Desktop/Dataset_BA/Final_Output_22_09-08_11_2023Dataset_BA/AnomalyDatasets/AnoVox"
+  data_path: "/home/tes_unreal/Desktop/Dataset_BA/Final_Output_22_09-08_11_2023"
+
+  imageset: "val"
+  return_ref: True
+  batch_size: 1
+  shuffle: False
+  num_workers: 4
+
+
+###################
+## Train params
+train_params:
+  # model_load_path: "/media/tes_unreal/Samsung_T5/BA/semantic_kitti/checkpoints/model_load.pt"
+  model_load_path: "not_available" # "/home/tes_unreal/Desktop/BA/Open_world_3D_semantic_segmentation/models/semantickitti_ood_final.pt"
+  model_save_path: "/home/tes_unreal/Desktop/BA/Open_world_3D_semantic_segmentation/model_save_incre.pt"
+  model_latest_path: "/home/tes_unreal/Desktop/BA/Open_world_3D_semantic_segmentation/model_latest_incre.pt"
+  checkpoint_every_n_steps: 4599
+  max_num_epochs: 10
+  eval_every_n_steps: 4599
+  learning_rate: 0.001
+  lamda_1: 0.1
+  lamda_2: 1
