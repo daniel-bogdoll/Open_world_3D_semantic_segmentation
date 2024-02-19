@@ -10,6 +10,8 @@ import pickle
 import open3d as o3d
 # from nuscenes.eval.lidarseg.utils import get_samples_in_eval_set
 
+from clearml import Dataset
+
 REGISTERED_PC_DATASET_CLASSES = {}
 
 
@@ -160,7 +162,12 @@ class AnoVox_val(data.Dataset):
 @register_dataset
 class AnoVox_train(data.Dataset):
     def __init__(self, data_path, imageset="train", return_ref=False, label_mapping="anovox-label.yaml", nusc=None):
-        self.root = data_path
+
+        #ClearML data
+        DATASET_ID = "522100153e144906bd738517a5511f9a"
+        dataset = Dataset.get(dataset_id=DATASET_ID)
+
+        self.root = dataset.get_local_copy()
         self.imageset = imageset
         self.return_ref = return_ref
         with open(label_mapping, "r") as stream:
