@@ -32,16 +32,17 @@ def init_clearML(clearmlOn):
 
     task = Task.init(project_name="bogdoll/anovox_benchmark", task_name="Lidar", output_uri="s3://tks-zx.fzi.de:9000/eo233")
     task.set_base_docker(
-            "scrin/dev-spconv:latest", 
-            docker_setup_bash_script="pip install open3d && pip install --no-index torch-scatter -f https://data.pyg.org/whl/torch-1.7.1+cu110.html && pip install strictyaml && sudo apt-get update && sudo apt-get install libx11-6 && sudo apt-get install libgl1-mesa-glx",
-            docker_arguments="-e NVIDIA_DRIVER_CAPABILITIES=all"  # --ipc=host",   
+            "ubuntu:18.04",
+            #"scrin/dev-spconv:latest", 
+            #docker_setup_bash_script=["pip install open3d", "pip install --no-index torch-scatter -f https://data.pyg.org/whl/torch-1.7.1+cu110.html", "pip install strictyaml", "sudo apt-get update", "sudo apt-get install -y libx11-6", "sudo apt-get install -y libgl1-mesa-glx"],
+            #docker_arguments="-e NVIDIA_DRIVER_CAPABILITIES=all"  # --ipc=host",   
             )
     
+    #parameters = {'script': 'semantickitti_scripts/train_cylinder_asym_naive.py'}
     parameters = {}
 
     task.connect(parameters)
     if clearmlOn:
-        # task.execute_remotely('rtx3090', clone=False, exit_process=True) 
         task.execute_remotely('docker', clone=False, exit_process=True) 
 
     return task
